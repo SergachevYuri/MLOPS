@@ -1,16 +1,20 @@
 FROM python:3.9
 
-ARG GRADIO_SERVER_PORT=7860
-ENV GRADIO_SERVER_PORT=${GRADIO_SERVER_PORT}
+# Установка зависимостей
+RUN pip install pandas scikit-learn joblib gradio
 
-WORKDIR /app
+# Создание и установка рабочей директории
+WORKDIR /workspace
 
-COPY requirements.txt /app/
-RUN python -m pip install --upgrade pip
-RUN pip install -r /app/requirements.txt
+# Копирование всех необходимых файлов в рабочую директорию
+COPY ./preprocess.py ./train.py ./app.py ./
 
-COPY app.py /app/
+# Предварительная обработка данных и обучение модели
+RUN python preprocess.py
+RUN python train.py
 
-ENV HOME=/workspace
+# Проверка наличия файла модели
+RUN ls -l  # Это покажет, создался ли файл модели
 
-CMD ["python", "/app/app.py"]
+# Запуск приложения
+CMD ["python", "app.py"]

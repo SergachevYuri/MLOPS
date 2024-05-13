@@ -1,25 +1,25 @@
 import gradio as gr
-from transformers import pipeline
+from joblib import load
+import pandas as pd
+import numpy as np
+from sklearn.datasets import load_iris
 
-# Загрузка модели через pipeline
-pipe = pipeline("text-classification", model="arinakosovskaia/implicit_toxicity")
+# Загрузка модели и данных ириса для получения названий классов
+model = load('iris_model.joblib')
+iris = load_iris()
+iris_classes = iris.target_names
 
-def predict_toxicity(text):
-    # Используем пайплайн для классификации текста
-    result = pipe(text)
-    # Форматируем вывод, чтобы показать только метку и вероятность
-    label = result[0]['label']
-    score = result[0]['score']
-    return f"Label: {label}, Score: {round(score, 4)}"
+def predict(sepal_length, sepal_width, petal_length, petal_width):
+    data = pd.DataFrame([[sepal_length, sepal_width, petal_length, petal_width]],
+                        columns=['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)'])
+    prediction = model.predict(data)
+    # Возвращаем название класса вместо индекса
+    return iris_classes[prediction[0]]
 
-# Создаем интерфейс Gradio
-interface = gr.Interface(
-    fn=predict_toxicity,
-    inputs="text",
-    outputs="text",
-    title="Модель для определения токсичности текста",
-    description="Эта модель используется для определения токсичности введенного текста. Введите текст ниже и нажмите 'Submit' для получения результатов."
-)
-
-# Запускаем интерфейс
-interface.launch()
+iface = gr.Interface(fn=predict,
+                     inputs=["number", "number", "number", "number"],
+                     outputs="text",  # Изменено на 'text' для вывода названий
+                     title="Предсказание ириса",
+                     description="Введите данные ириса для предсказания класса.")
+if __name__ == "__main__":
+    iface.launch(server_name='0.0.0.0', server_port=7860)
