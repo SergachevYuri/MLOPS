@@ -13,4 +13,7 @@ X_train = train_data[['day']]
 y_train = train_data['temperature']
 model.fit(X_train, y_train)
 
+if not os.path.exists('model'):
+    os.makedirs('model')
+
 joblib.dump(model, 'model/linear_regression_model.pkl')
