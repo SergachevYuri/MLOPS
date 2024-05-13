@@ -9,7 +9,7 @@ def preprocess_data(file_path):
     data['temperature'] = scaled_data
     return data
 
-for folder in ['train', 'test']:
+for folder in ['dataset']:
     for file_name in os.listdir(folder):
         file_path = f'{folder}/{file_name}'
         data = preprocess_data(file_path)
