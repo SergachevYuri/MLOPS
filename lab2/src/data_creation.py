@@ -15,17 +15,11 @@ np.random.seed(42)
 num_days = 365
 
 # Создание тренировочных данных
-if not os.path.exists('train'):
-    os.makedirs('train')
+if not os.path.exists('data'):
+    os.makedirs('data')
 train_data1 = generate_data(num_days, noise_level=1.0)
-train_data2 = generate_data(num_days, noise_level=1.5, anomaly=True)
-train_data1.to_csv('train/train_data1.csv', index=False)
-train_data2.to_csv('train/train_data2.csv', index=False)
+train_data1.to_csv('data/train_data.csv', index=False)
 
-# Создание тестовых данных
-if not os.path.exists('test'):
-    os.makedirs('test')
+
 test_data1 = generate_data(num_days, noise_level=1.0)
-test_data2 = generate_data(num_days, noise_level=1.5, anomaly=True)
-test_data1.to_csv('test/test_data1.csv', index=False)
-test_data2.to_csv('test/test_data2.csv', index=False)
+test_data1.to_csv('data/test_data.csv', index=False)

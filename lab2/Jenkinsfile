@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Setup') {
+            steps {
+                // Создаем и активируем виртуальное окружение
+                sh 'python3 -m venv lab2/.venv'
+                sh '. lab2/.venv/bin/activate'
+                
+                // Устанавливаем зависимости из requirements.txt
+                sh 'lab2/.venv/bin/pip install -r lab2/requirements.txt'
+            }
+        }
+        // Шаг создания датасетов
+        stage('Data Creating') {
+            steps {
+                sh '/home/dima/mlops/lab2/venv/bin/python /home/dima/mlops/lab2/src/data_creation.py'
+            }
+        }
+        // Шаг предобработки данных
+        stage('Model Preprocessing') {
+            steps {
+                sh '/home/dima/mlops/lab2/venv/bin/python /home/dima/mlops/lab2/src/model_preprocessing.py'
+            }
+        }
+        // Шаг обучения модели
+        stage('Model Preparation') {
+            steps {
+                sh '/home/dima/mlops/lab2/venv/bin/python /home/dima/mlops/lab2/src/model_preparation.py'
+            }
+        }
+        // Шаг проверки работы модели
+        stage('Testing') {
+            steps {
+                sh '/home/dima/mlops/lab2/venv/bin/python /home/dima/mlops/lab2/src/model_testing.py'
+            }
+        }
+    }
+}
