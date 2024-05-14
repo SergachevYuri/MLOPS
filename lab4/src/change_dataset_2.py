@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-dataset = pd.from_csv('titanic.csv')
+dataset = pd.read_csv('titanic.csv')
 
 dataset['Age'].fillna(dataset['Age'].mean(), inplace=True)
 dataset.to_csv('titanic.csv')
