@@ -1,1 +1,7 @@
 /titanic.csv
+
+# Ignore cache directory
+/.dvc/cache
+
+# Ignore DVC logs
+/.dvc/tmp
