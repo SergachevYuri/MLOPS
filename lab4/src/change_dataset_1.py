@@ -1,9 +1,9 @@
 import pandas as pd
 
 
-dataset = pd.from_csv('titanic.csv')
+dataset = pd.read_csv('titanic.csv')
 
-dataset = dataset[['PClass', 'Sex', 'Age']]
+dataset = dataset[['Pclass', 'Sex', 'Age']]
 dataset.to_csv('titanic.csv')
 
 
