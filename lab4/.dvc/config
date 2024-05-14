@@ -1,4 +1,5 @@
 [core]
     no_scm = True
+    remote = lab4
 ['remote "lab4"']
     url = gdrive://1irZ5JaUtTgjK8jC8EGaKklwk3nu-YsNn
